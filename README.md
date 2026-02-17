@@ -40,18 +40,18 @@
 
 SPRING_FESTIVAL_GALA/
 ├── backend/
-│ └── app.py # Flask 后端服务
+│   └── app.py
 ├── frontend/templates/
-│ └── index.html # 前端页面
+│   └── index.html
 ├── static/
-│ ├── css/
-│ │ └── style.css # 样式文件
-│ └── js/
-│ └── script.js # 交互逻辑
-├── requirements.txt # Python 依赖
-└── README.md # 项目文档
-
----
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── script.js
+├── .gitignore          ← Git 忽略文件
+├── LICENSE             ← 许可证文件
+├── README.md           ← 项目文档
+└── requirements.txt    ← Python 依赖
 
 ## 🚀 快速开始
 
