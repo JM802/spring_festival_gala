@@ -72,7 +72,7 @@ async function fetchTargetTime() {
             console.log( '目标时间:', targetTime );
         }
     } catch ( error ) {
-        console.error( '获取目标时间失败:', error );
+        console.error( '1获取目标时间失败:', error );
     }
 }
 
@@ -131,7 +131,7 @@ function handleNumberInput( value ) {
         displayValue += value;
     }
 
-    // 限制最大长度
+    // 限制最大长度(最大长度为10)
     if ( displayValue.length > 10 ) {
         displayValue = displayValue.slice( 0, 10 );
     }

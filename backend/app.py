@@ -13,15 +13,14 @@ app = Flask(
 )
 
 @app.route('/')
-def index():
+def index():                       
     return render_template('index.html')
 
 @app.route('/api/get_target_time', methods=['POST'])
-def get_target_time():
-    """获取目标时间数字"""
+def get_target_time(): 
     data = request.json
     mode = data.get('mode', 2)
-    
+                    
     if mode == 1:
         now = datetime.now()
         m, d, h, mm = now.month, now.day, now.hour, now.minute
@@ -84,4 +83,4 @@ def calculate():
         })
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)
