@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧧 春晚魔术计算器 2024</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@400;700;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- 春节背景装饰 -->
+    <div class="festive-bg">
+        <div class="lantern lantern-1">🏮</div>
+        <div class="lantern lantern-2">🏮</div>
+        <div class="lantern lantern-3">🏮</div>
+        <div class="cloud cloud-1">☁️</div>
+        <div class="cloud cloud-2">☁️</div>
+        <div class="firecracker firecracker-1">🧨</div>
+        <div class="firecracker firecracker-2">🧨</div>
+    </div>
+
+    <!-- 烟花画布 -->
+    <canvas id="fireworks-canvas"></canvas>
+
+    <!-- 主容器 -->
+    <div class="main-container">
+        <!-- 标题区域 -->
+        <div class="header-section">
+            <div class="title-decoration">
+                <span class="deco-icon">🐉</span>
+                <h1 class="main-title">春晚魔术计算器</h1>
+                <span class="deco-icon">🐉</span>
+            </div>
+            <p class="subtitle">2026 特别版 · 见证奇迹时刻</p>
+            <div class="mode-switch">
+                <button class="mode-btn active" data-mode="2">
+                    <span class="mode-icon">🧧</span>
+                    <span>春晚时间</span>
+                </button>
+                <button class="mode-btn" data-mode="1">
+                    <span class="mode-icon">🕐</span>
+                    <span>当前时间</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 计算器主体 -->
+        <div class="calculator-body">
+            <!-- 显示屏区域 -->
+            <div class="display-section">
+                <div class="display-screen" id="main-display">
+                    <div class="display-history" id="display-history"></div>
+                    <div class="display-current" id="display-current">0</div>
+                </div>
+                <div class="status-bar">
+                    <span class="status-item" id="status-mode">🧧 春晚模式</span>
+                    <span class="status-item" id="status-step">步骤：1/3</span>
+                    <span class="status-item" id="status-sum">和：0</span>
+                </div>
+            </div>
+
+            <!-- 输入步骤指示 -->
+            <div class="step-indicator">
+                <div class="step-dot active" data-step="1">
+                    <span class="step-num">1</span>
+                    <span class="step-label">输入 A</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-dot" data-step="2">
+                    <span class="step-num">2</span>
+                    <span class="step-label">输入 B</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-dot" data-step="3">
+                    <span class="step-num">3</span>
+                    <span class="step-label">输入 C</span>
+                </div>
+            </div>
+
+            <!-- 计算器键盘 -->
+            <div class="keypad-section">
+                <!-- 功能键行 -->
+                <div class="keypad-row">
+                    <button class="key key-function" id="btn-clear">
+                        <span class="key-icon">🔄</span>
+                        <span class="key-label">清除</span>
+                    </button>
+                    <button class="key key-function" id="btn-delete">
+                        <span class="key-icon">⌫</span>
+                        <span class="key-label">删除</span>
+                    </button>
+                    <button class="key key-function key-next" id="btn-next" disabled>
+                        <span class="key-icon">➡️</span>
+                        <span class="key-label">下一步</span>
+                    </button>
+                </div>
+
+                <!-- 数字键行 1 -->
+                <div class="keypad-row">
+                    <button class="key key-number" data-value="7">7</button>
+                    <button class="key key-number" data-value="8">8</button>
+                    <button class="key key-number" data-value="9">9</button>
+                </div>
+
+                <!-- 数字键行 2 -->
+                <div class="keypad-row">
+                    <button class="key key-number" data-value="4">4</button>
+                    <button class="key key-number" data-value="5">5</button>
+                    <button class="key key-number" data-value="6">6</button>
+                </div>
+
+                <!-- 数字键行 3 -->
+                <div class="keypad-row">
+                    <button class="key key-number" data-value="1">1</button>
+                    <button class="key key-number" data-value="2">2</button>
+                    <button class="key key-number" data-value="3">3</button>
+                </div>
+
+                <!-- 数字键行 4 -->
+                <div class="keypad-row">
+                    <button class="key key-number" data-value="0">0</button>
+                    <button class="key key-number" data-value="00">00</button>
+                    <button class="key key-magic" id="btn-magic" disabled>
+                        <span class="key-icon">✨</span>
+                        <span class="key-label">见证奇迹</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 结果显示区域 -->
+            <div class="result-section" id="result-section" style="display: none;">
+                <div class="result-card">
+                    <div class="result-header">
+                        <span class="result-icon">🎯</span>
+                        <span class="result-title">计算结果</span>
+                    </div>
+                    <div class="result-content" id="result-content"></div>
+                    <div class="result-highlight" id="result-highlight"></div>
+                </div>
+            </div>
+
+            <!-- 重置按钮 -->
+            <button class="reset-btn" id="reset-btn" style="display: none;">
+                <span class="btn-icon">🔄</span>
+                <span class="btn-text">重新计算</span>
+            </button>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer-section">
+            <div class="footer-decoration">
+                <span>🎆</span>
+                <span>新年快乐 · 万事如意</span>
+                <span>🎆</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新年祝福弹窗 -->
+    <div class="greeting-overlay" id="greeting-overlay" style="display: none;">
+        <div class="greeting-content">
+            <div class="greeting-animation">
+                <div class="greeting-icon-main">🎊</div>
+                <div class="greeting-icons">
+                    <span class="floating-icon">🧧</span>
+                    <span class="floating-icon">🏮</span>
+                    <span class="floating-icon">🎉</span>
+                    <span class="floating-icon">🐉</span>
+                    <span class="floating-icon">✨</span>
+                </div>
+            </div>
+            <h1 class="greeting-title">新年快乐</h1>
+            <p class="greeting-subtitle">Happy New Year</p>
+            <div class="greeting-year" id="greeting-year"></div>
+            <div class="greeting-wish">
+                <p>🎊 恭喜发财 · 身体健康 🎊</p>
+                <p>🧧 万事如意 · 阖家幸福 🧧</p>
+            </div>
+            <button class="close-greeting-btn" id="close-greeting">
+                <span class="btn-icon">🎁</span>
+                <span class="btn-text">收下祝福</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
